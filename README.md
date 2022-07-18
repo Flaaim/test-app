@@ -73,7 +73,7 @@ function getControllerPAth($argument){
 ```
 
 перед созданием функции makeDirectory(), isDirectoryExists() необходимо внедрить механизм по работе с файлами
-
+Illuminate\Filesystem\Filesystem
 ```
 private $files;
 function __construct(Filesystem $filesystem)
