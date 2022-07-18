@@ -1,0 +1,30 @@
+<?php
+
+
+namespace App\Modules\DummySpace\Controllers;
+
+use Illuminate\Http\Request;
+use App\Modules\DummySpace\Models\DummyModel;
+use App\Http\Controllers\Controller;
+
+
+
+class DummyController extends Controller {
+
+    public function index(){
+
+    }
+
+    public function create(){
+
+    }
+
+    public function edit(){
+
+    }
+
+    public function show(){
+        
+    }
+}
+

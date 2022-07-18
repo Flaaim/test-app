@@ -1,0 +1,8 @@
+<?php
+
+use App\Modules\DummySpace\Controllers\Api\DummyController;
+
+
+Route::prefix('DummyRoutePrefix')->group(function(){
+    route::get('/', [DummyController::class, 'index'])->name('index');
+});

@@ -1,0 +1,10 @@
+<?php
+
+use App\Modules\DummySpace\Controllers\DummyController;
+
+Route::prefix('DummyRoutePrefix')->group(function(){
+    route::get('/index', [DummyController::class, 'index'])->name('index');
+    route::get('/create', [DummyController::class, 'create'])->name('create');
+    route::get('/edit', [DummyController::class, 'edit'])->name('edit');
+    route::get('/show', [DummyController::class, 'show'])->name('show');
+});
