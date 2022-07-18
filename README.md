@@ -72,7 +72,7 @@ function getControllerPAth($argument){
 }
 ```
 
-перед созданием функции makeDirectory необходимо внедрить механизм по работе с файлами
+перед созданием функции makeDirectory(), isDirectoryExists() необходимо внедрить механизм по работе с файлами
 
 ```
 private $files;
