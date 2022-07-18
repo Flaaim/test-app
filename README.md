@@ -100,6 +100,59 @@ function isDirectoryExists($path)
         return $this->files->exists($path);
     }
 ```
+
+## Формирование Stubs файлов
+данные файлы находяться /resources/stubs/
+#### controller stub
+```
+namespace App\Modules\[]\Controllers
+
+use //Controller
+use //Model
+use //Request
+
+class User extends Controller {
+
+}
+
+```
+### Создание Routes
+
+Выполняется по аналогии с созданием контроллеров
+
+```
+получаем $routePath;
+проверяем есть ли такой путь, если да -> выводи сообщение
+создаем директорию makeDirectory()
+далее все по аналогии с controller
+```
+
+### Создание View
+//Создаются несколько view
+получаем путь к шаблонам getViewPath(); 
+
+```
+getViewPath():array
+{
+
+}
+```
+используя цикл foreach проходим по полученным путям, получаем путь к каждому элементу
+проверяем по аналогии наличие пути isDirectoryExists() 
+если нет, создаем директорую.
+получаем stub 
+меняем маркеры 
+создаем view
+
+#### function getViewPath($name)
+```
+$array = collect(['show','create', 'edit','index']);
+для каждого элемента массива применяем функцию
+$array->map(function($item)use($name){
+    return [путь]
+}
+)
+```
 ## Дополнительные функции
 ```
 $this->argument('Admin\User'); // Admin\User
