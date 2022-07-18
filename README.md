@@ -129,14 +129,9 @@ class User extends Controller {
 
 ### Создание View
 //Создаются несколько view
+function createView();
+
 получаем путь к шаблонам getViewPath(); 
-
-```
-getViewPath():array
-{
-
-}
-```
 используя цикл foreach проходим по полученным путям, получаем путь к каждому элементу
 проверяем по аналогии наличие пути isDirectoryExists() 
 если нет, создаем директорую.
@@ -144,7 +139,7 @@ getViewPath():array
 меняем маркеры 
 создаем view
 
-#### function getViewPath($name)
+#### function getViewPath($name) //возвращает массив
 ```
 $array = collect(['show','create', 'edit','index']);
 для каждого элемента массива применяем функцию
