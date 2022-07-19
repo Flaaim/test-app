@@ -148,6 +148,54 @@ $array->map(function($item)use($name){
 }
 )
 ```
+## Реализация service provider
+В директории config создаем новый файл modular.php Данный файл в виде массива будет хранить определенный пул настроек.
+```
+return [
+'path' => base_path()."/app/Modules", //полный путь к директории с модулями
+'base_namespace' => 'App\Modules', //базовое пространсво имен для всех модулей
+'groupWithoutPrefix' => 'Pub',
+'groupMiddleware' => [
+'Admin' => [
+   'web' => ['auth'],
+   'api' => ['auth.api']
+    ]
+  ], //указываются классы посредники для родительских групп
+'modules' => [
+    'Admin' => [
+       'User'
+     ]
+] //в данном параметре в виде массива указываются все модули которые необходимой обойти и считать маршруты.
+
+
+]
+
+```
+Создаем провайдер, который будет обходить роуты. php artisan make:provider ModularProvider
+
+Проверить подлючение провайдера в /config/app.php.
+
+```
+function boot()
+
+$modules = config('modular.modules'); //все модули из конфигурационного файла modular.php
+$path = config('modular.path');//путь к модулям
+if($modules) {
+Route::group([
+  'prefix' => '',
+    ], function()use($modules, $path){
+       
+           foreach($modules as $mod => $submodules){
+              foreach($submodules as $key => $sub) {
+                    $relativePath = /$mod/$sub/  //путь к дочернему модулю
+                  }
+            }
+      });
+ }
+
+```
+
+
 ## Дополнительные функции
 ```
 $this->argument('Admin\User'); // Admin\User
