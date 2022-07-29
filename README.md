@@ -72,8 +72,8 @@ function getControllerPAth($argument){
 }
 ```
 
-перед созданием функции makeDirectory необходимо внедрить механизм по работе с файлами
-
+перед созданием функции makeDirectory(), isDirectoryExists() необходимо внедрить механизм по работе с файлами
+Illuminate\Filesystem\Filesystem
 ```
 private $files;
 function __construct(Filesystem $filesystem)
@@ -100,6 +100,102 @@ function isDirectoryExists($path)
         return $this->files->exists($path);
     }
 ```
+
+## Формирование Stubs файлов
+данные файлы находяться /resources/stubs/
+#### controller stub
+```
+namespace App\Modules\[]\Controllers
+
+use //Controller
+use //Model
+use //Request
+
+class User extends Controller {
+
+}
+
+```
+### Создание Routes
+
+Выполняется по аналогии с созданием контроллеров
+
+```
+получаем $routePath;
+проверяем есть ли такой путь, если да -> выводи сообщение
+создаем директорию makeDirectory()
+далее все по аналогии с controller
+```
+
+### Создание View
+//Создаются несколько view
+function createView();
+
+получаем путь к шаблонам getViewPath(); 
+используя цикл foreach проходим по полученным путям, получаем путь к каждому элементу
+проверяем по аналогии наличие пути isDirectoryExists() 
+если нет, создаем директорую.
+получаем stub 
+меняем маркеры 
+создаем view
+
+#### function getViewPath($name) //возвращает массив
+```
+$array = collect(['show','create', 'edit','index']);
+для каждого элемента массива применяем функцию
+$array->map(function($item)use($name){
+    return [путь]
+}
+)
+```
+## Реализация service provider
+В директории config создаем новый файл modular.php Данный файл в виде массива будет хранить определенный пул настроек.
+```
+return [
+'path' => base_path()."/app/Modules", //полный путь к директории с модулями
+'base_namespace' => 'App\Modules', //базовое пространсво имен для всех модулей
+'groupWithoutPrefix' => 'Pub',
+'groupMiddleware' => [
+'Admin' => [
+   'web' => ['auth'],
+   'api' => ['auth.api']
+    ]
+  ], //указываются классы посредники для родительских групп
+'modules' => [
+    'Admin' => [
+       'User'
+     ]
+] //в данном параметре в виде массива указываются все модули которые необходимой обойти и считать маршруты.
+
+
+]
+
+```
+Создаем провайдер, который будет обходить роуты. php artisan make:provider ModularProvider
+
+Проверить подлючение провайдера в /config/app.php.
+
+```
+function boot()
+
+$modules = config('modular.modules'); //все модули из конфигурационного файла modular.php
+$path = config('modular.path');//путь к модулям
+if($modules) {
+Route::group([
+  'prefix' => '',
+    ], function()use($modules, $path){
+       
+           foreach($modules as $mod => $submodules){
+              foreach($submodules as $key => $sub) {
+                    $relativePath = /$mod/$sub/  //путь к дочернему модулю
+                  }
+            }
+      });
+ }
+
+```
+
+
 ## Дополнительные функции
 ```
 $this->argument('Admin\User'); // Admin\User
