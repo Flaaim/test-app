@@ -122,6 +122,8 @@ class MakeModule extends Command
             
         }
         $this->createApiRoutes($apiController);
+        $this->updateConfig($this->argument('name'), $apiController);
+    }
     }
 
     private function getApiControllerPath($path, $apiController):string
@@ -154,11 +156,12 @@ class MakeModule extends Command
                 $stub
             );
             file_put_contents($controllerPath, $stub);
-            
+            $this->info('Controller created succesfully');
         }
         
-        $this->info('Controller created succesfully');
+        
         $this->createRoutes($controller);
+        $this->updateConfig($this->argument('name'), $controller);
     }
     
 
