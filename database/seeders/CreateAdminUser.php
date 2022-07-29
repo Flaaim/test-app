@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use DB;
 
 class CreateAdminUser extends Seeder
 {
@@ -16,10 +16,10 @@ class CreateAdminUser extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name'=> 'admin',
+            'firstname'=> 'admin',
             'lastname' => 'admin',
             'email'=> 'admin@admin.com',
-            'password'=> bcript('root'),
+            'password'=> bcrypt('admin'),
         ]);
     }
 }

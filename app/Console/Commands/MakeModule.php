@@ -20,8 +20,9 @@ class MakeModule extends Command
     {--model}
     {--migration}
     {--controller}
-    {--views}
+    {--view}
     {--api}
+    {--test}
     ';
 
     public function __construct(Filesystem $filesystem){
@@ -58,15 +59,18 @@ class MakeModule extends Command
         if($this->option('controller')){
             $this->createController();
         }
-        if($this->option('views')){
+        if($this->option('view')){
             $this->createView();
         }
         if($this->option('api')){
             $this->createApiController();
         }
+       
+
         
         
     }
+
 
     private function createModel(){
         $name = Str::singular(Str::studly(class_basename($this->argument('name'))));
@@ -77,7 +81,7 @@ class MakeModule extends Command
     }
 
     private function createMigration(){
-        $table = class_basename($this->argument('name'));
+        $table = Str::plural(Str::lcfirst(class_basename($this->argument('name'))));
         
         $this->call('make:migration', [
             'name' => "create_{$table}_table",
@@ -150,11 +154,11 @@ class MakeModule extends Command
                 $stub
             );
             file_put_contents($controllerPath, $stub);
-            $this->info('Controller created succesfully');
-            $this->createRoutes($controller);
+            
         }
         
-        
+        $this->info('Controller created succesfully');
+        $this->createRoutes($controller);
     }
     
 
@@ -276,7 +280,23 @@ class MakeModule extends Command
         return $path;
     }
     
-    
+    private function updateConfig($argument, $controller){
+        $module = explode('\\', $argument);
+        $path = base_path()."/config/modular.php";
+        if(file_exists($path)){
+            $file = $this->files->get($path);
+        }
+        preg_match("#'modules' => \[.*?'{$module}' => \[(.*?)\]#s", $file, $matches);
+        if(count($matches) == 2){
+            if(!preg_match("#'{$controller}'#s", $matches[1])){
+
+                $splitStr = preg_split("#('{$module}' => \[)#s", $file, 2, PREG_SPLIT_DELIM_CAPTURE);
+                dd($splitStr);
+                $str = $splitStr[0].$splitStr[1]."\r\n            '{$controller}',".$splitStr[2];
+                $this->files->put($path, $str);
+            }
+        } 
+    }
     
     
 

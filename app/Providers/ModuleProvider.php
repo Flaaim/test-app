@@ -34,7 +34,7 @@ class ModuleProvider extends ServiceProvider
 
                 foreach($modules as $mod => $submodules){
                     foreach($submodules as $key => $sub){
-        
+                        
                         $relativePath = "$mod/$sub"; 
 
                         Route::middleware('web')->group(function()use($relativePath){
@@ -42,8 +42,8 @@ class ModuleProvider extends ServiceProvider
                         });
 
 
-                        Route::prefix('api')->group(function()use($relativePath){
-                            $this->getApiRoutes($relativePath);
+                        Route::prefix('api')->group(function()use($relativePath, $mod){
+                            $this->getApiRoutes($relativePath, $mod);
                         });
                         
                         
@@ -53,15 +53,7 @@ class ModuleProvider extends ServiceProvider
             });
         }
 
-
-
-        
-        
-
-       $this->app['view']->addNamespace('Pub', base_path().'/resources/views/Pub');
-        
-        
-        
+        $this->app['view']->addNamespace('Pub', base_path()."/resources/views/Pub");
     }
     
     private function getWebRoutes($relativePath){
@@ -73,11 +65,14 @@ class ModuleProvider extends ServiceProvider
         }
     }
 
-    private function getApiRoutes($relativePath){
+    private function getApiRoutes($relativePath, $mod){
         $routesPath = base_path() . "/app/Modules/$relativePath/Routes/api.php";
-        
-        if(file_exists($routesPath)){
-            $this->loadRoutesFrom(base_path("app/Modules/$relativePath/Routes/api.php"));
+        $prefix = strtolower($mod);
+            if(file_exists($routesPath)){
+            Route::prefix("$prefix")->group(function()use($relativePath){
+                $this->loadRoutesFrom(base_path("app/Modules/$relativePath/Routes/api.php"));
+                });
+            
         }
     }
     
