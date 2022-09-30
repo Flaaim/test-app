@@ -5,7 +5,7 @@ namespace App\Modules\Pub\Auth\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use App\Modules\Admin\User\Model\User;
+use App\Modules\Admin\User\Models\User;
 
 
 class LoginController extends Controller

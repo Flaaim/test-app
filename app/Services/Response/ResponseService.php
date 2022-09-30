@@ -17,4 +17,8 @@ class ResponseService
             self::ResponseParams($status, $errors, $data), $code
         );
     }
+
+    public static function success(){
+        return self::sendJsonResponse(true, 200, [], []);
+    }
 }

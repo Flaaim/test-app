@@ -4,7 +4,7 @@
 namespace App\Modules\Admin\User\Controllers;
 
 use Illuminate\Http\Request;
-use App\Modules\Admin\User\Models\User;
+use App\Modules\Admin\User\Model\User;
 use App\Http\Controllers\Controller;
 
 

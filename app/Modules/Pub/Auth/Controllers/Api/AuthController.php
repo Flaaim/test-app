@@ -2,7 +2,7 @@
 
 namespace App\Modules\Pub\Auth\Controllers\Api;
 
-use App\Modules\Admin\User\Model\User;
+use App\Modules\Admin\User\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Modules\Pub\Auth\Requests\LoginRequest;

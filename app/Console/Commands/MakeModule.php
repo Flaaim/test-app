@@ -75,7 +75,7 @@ class MakeModule extends Command
     private function createModel(){
         $name = Str::singular(Str::studly(class_basename($this->argument('name'))));
         $this->call('make:model', [
-            'name'=> "App\\Modules\\".trim($this->argument('name'))."\\Model\\$name"
+            'name'=> "App\\Modules\\".trim($this->argument('name'))."\\Models\\$name"
         ]);
         
     }
@@ -124,7 +124,7 @@ class MakeModule extends Command
         $this->createApiRoutes($apiController);
         $this->updateConfig($this->argument('name'), $apiController);
     }
-    }
+    
 
     private function getApiControllerPath($path, $apiController):string
     {
@@ -284,19 +284,22 @@ class MakeModule extends Command
     }
     
     private function updateConfig($argument, $controller){
-        $module = explode('\\', $argument);
+        $module = explode('\\', $argument)[0];
         $path = base_path()."/config/modular.php";
         if(file_exists($path)){
             $file = $this->files->get($path);
         }
+
+        
+
         preg_match("#'modules' => \[.*?'{$module}' => \[(.*?)\]#s", $file, $matches);
         if(count($matches) == 2){
             if(!preg_match("#'{$controller}'#s", $matches[1])){
-
-                $splitStr = preg_split("#('{$module}' => \[)#s", $file, 2, PREG_SPLIT_DELIM_CAPTURE);
-                dd($splitStr);
+                
+                $splitStr = preg_split("#('modules' => \[.*?'{$module}' => \[)#s", $file, 2, PREG_SPLIT_DELIM_CAPTURE);
                 $str = $splitStr[0].$splitStr[1]."\r\n            '{$controller}',".$splitStr[2];
                 $this->files->put($path, $str);
+                
             }
         } 
     }

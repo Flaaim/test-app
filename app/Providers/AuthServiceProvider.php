@@ -2,8 +2,16 @@
 
 namespace App\Providers;
 
+use App\Modules\Admin\LeadComment\Model\LeadComment;
+use App\Modules\Admin\Sources\Model\Source;
+use App\Modules\Admin\User\Models\User;
+use App\Modules\Admin\Role\Model\Role;
+use App\Modules\Admin\Role\Policies\RolePolicy;
+use App\Modules\Admin\Sources\Policies\SourcePolicy;
+use App\Modules\Admin\LeadComment\Policies\LeadCommentPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +21,10 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        Role::class => RolePolicy::class,
+        User::class => UserPolicy::class,
+        Source::class => SourcePolicy::class,
+        LeadComment::class => LeadCommentPolicy::class,
     ];
 
     /**
